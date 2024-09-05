@@ -3,25 +3,16 @@
 <link rel="stylesheet" src="/static/css/quizPage.css">
 
 <div th:replace="fragments/head :: head"></div>
+<script src="/js/quiz/quiz.js"></script>
 <body>
 
 <div th:replace="fragments/navigation :: nav"></div>
 
 <div class="container mt-4">
-    <div id="title">Title</div>
-    <div id="questionNumber">1/10</div>
-    <div id="questionContent">Question</div>
-    <div id="questionAnswers">
-        <button>Answer 1</button>
-        <button>Answer 2</button>
-        <button>Answer 3</button>
-        <button>Answer 4</button>
-    </div>
+    <div id="title" th:text="${}"></div>
     <div id="buttons">
-        <button><</button>
-        <button>></button>
+        <button>Start!</button>
     </div>
-    <p></p>
 </div>
 
 </body>
