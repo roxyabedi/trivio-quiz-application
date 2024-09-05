@@ -40,6 +40,26 @@ public class QuizDao
         return quizzes;
     }
 
+    public Quiz getQuizById(int quizId)
+    {
+        String sql = """
+            SELECT quiz_id
+                , quiz_title
+                , is_live
+            FROM quiz
+            WHERE quiz_id = ?
+        """;
+
+        var row = jdbcTemplate.queryForRowSet(sql, quizId);
+
+        if(row.next())
+        {
+
+        }
+
+
+    }
+
     private Quiz mapRowToQuiz(SqlRowSet row)
     {
         int id = row.getInt("quiz_id");
