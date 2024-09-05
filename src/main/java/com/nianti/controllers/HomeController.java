@@ -20,6 +20,8 @@ public class HomeController
         model.addAttribute("title", "Trivio Home");
         model.addAttribute("quizzes", quizzes);
 
+
+
         return "index";
     }
 }
