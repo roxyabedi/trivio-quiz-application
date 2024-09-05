@@ -2,15 +2,22 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 
 <div th:replace="fragments/head :: head"></div>
-
+<script src="/js/home/home.js"></script>
 <body>
 
 <div th:replace="fragments/navigation :: nav"></div>
 
 <div class="container mt-4">
-    <div class="card mb-2" th:each="quiz:${quizzes}">
-        <div class="card-header" th:text="${quiz.title}"></div>
+
+    <div class="card mt-4" style="width: 18rem" th:each="quiz:${quizzes}">
+        <img class="card-img-top" src="" alt="Card image cap" >
+        <div class="card-body">
+            <h5 class="card-title" th:text="${quiz.title}"></h5>
+            <p class="card-text" th:text="${quiz.title}" ></p>
+            <a th:href="@{/quiz/1}" class="btn btn-primary">Take Quiz</a>
+        </div>
     </div>
+
 </div>
 
 </body>
