@@ -1,3 +1,8 @@
+let questionCount = 1;
+let globalId;
+let globalTotalQuestions;
+let globalQuestionsArray;
+
 async function getQuestions(quizId)
 {
     const url = `api/quiz/questions/${quizId}`;
@@ -31,6 +36,34 @@ function displayQuestion(quizId, currentQuestion, parent)
     })
 }
 
+function questionNavigation(event)
+{
+    console.log("pressed button")
+    console.log(event.target.innerText);
+    const choice = event.target.innerText;
+    const parent = document.querySelector(".question-container")
+    const counter = document.querySelector(".question-counter")
+
+    if(choice == ">" && questionCount < globalTotalQuestions)
+    {
+        questionCount++
+        counter.innerHTML = `${questionCount}/${globalTotalQuestions}`
+        console.log(questionCount)
+        displayQuestion(globalId, questionCount, parent)
+        console.log("right")
+    }
+
+     if(choice == "<" && questionCount > 1 )
+    {
+        questionCount--
+        counter.innerHTML = `${questionCount}/${globalTotalQuestions}`
+        console.log(questionCount)
+        displayQuestion(globalId, questionCount, parent)
+        console.log("left")
+    }
+
+}
+
 document.addEventListener("DOMContentLoaded", () => {
     console.log("connected")
 
@@ -40,9 +73,12 @@ document.addEventListener("DOMContentLoaded", () => {
    {
         const id = parseInt(e.currentTarget.value); //QuizId
         const questionsArray = await getQuestions(id); //Questions Array
-        const questionCount = 1;
-        const currentQuestion = questionsArray[0].questionId;
+        const currentQuestion = questionsArray[0].questionNumber;
         const totalQuestions = questionsArray.length;
+
+        globalId = id;
+        globalTotalQuestions = totalQuestions;
+        globalQuestionsArray = questionsArray;
 
         startButton.remove();
 
@@ -64,6 +100,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const leftButton = document.createElement("button");
         const rightButton = document.createElement("button");
+
+        leftButton.textContent = "<";
+        rightButton.textContent = ">";
+
+        leftButton.addEventListener("click", questionNavigation);
+        rightButton.addEventListener("click", questionNavigation);
 
         buttonContainer.append(leftButton);
         buttonContainer.append(rightButton);

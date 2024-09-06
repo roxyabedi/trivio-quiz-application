@@ -73,13 +73,14 @@ public class QuizController {
         var questions = questionDao.getQuestionsByQuizId(quizId);
 
         var activeQuestion = questions.stream()
-                .filter(question -> question.getQuestionId() == currentQuestion)
+                .filter(question -> question.getQuestionNumber() == currentQuestion)
                 .findFirst();
 
         if (activeQuestion.isPresent())
         {
-            var answers = answerDao.getAnswersByQuestionId(currentQuestion);
             var question = activeQuestion.get().getQuestionText();
+            var questionId = activeQuestion.get().getQuestionId();
+            var answers = answerDao.getAnswersByQuestionId(questionId);
 
             model.addAttribute("activeQuestion", question);
             model.addAttribute("answers", answers);
