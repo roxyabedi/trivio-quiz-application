@@ -1,5 +1,8 @@
 package com.nianti.controllers;
 
+import com.nianti.models.Answer;
+import com.nianti.models.Quiz;
+import com.nianti.services.AnswerDao;
 import com.nianti.services.QuestionDao;
 import com.nianti.services.QuizDao;
 import org.springframework.stereotype.Controller;
@@ -16,7 +19,7 @@ public class QuizController {
 
     private QuizDao quizDao = new QuizDao();
     private QuestionDao questionDao = new QuestionDao();
-
+    private AnswerDao answerDao = new AnswerDao();
 
     @GetMapping("/quiz")
     public String getQuizPage(Model model, @RequestParam int quizId)
@@ -27,7 +30,13 @@ public class QuizController {
                 .filter(quiz -> quiz.getQuizId() == quizId)
                 .findFirst();
 
-        model.addAttribute("quiz", quizModel);
+        if (quizModel.isPresent())
+        {
+            model.addAttribute("quizModel", quizModel.get());
+        }
+        else {
+            model.addAttribute("quizModel", new Quiz());
+        }
 
         return "quiz/index";
     }
@@ -37,20 +46,46 @@ public class QuizController {
     {
 
         var questions = questionDao.getQuestionsByQuizId(quizId);
-        var quiz = quizDao.getAllQuizzes();
+        var quizzes = quizDao.getAllQuizzes();
+
+        var quizModel = quizzes.stream()
+                .filter(quiz -> quiz.getQuizId() == quizId)
+                .findFirst();
+
+        if (quizModel.isPresent())
+        {
+            model.addAttribute("quizModel", quizModel.get());
+        }
+        else {
+            model.addAttribute("quizModel", new Quiz());
+        }
 
         model.addAttribute("questions", questions);
-        model.addAttribute("quiz", quiz);
+        model.addAttribute("quiz", quizzes);
         model.addAttribute("id", quizId);
 
-        return "quiz/index";
+        return "quiz/test";
     }
-    @GetMapping("/quiz/setup/{id}")
-    public String getQuizFragment(Model model, @PathVariable int quizId){
+    @GetMapping("/quiz/setup/{quizId}")
+    public String getQuizFragment(Model model, @PathVariable int quizId, @RequestParam int questionId){
 
         var questions = questionDao.getQuestionsByQuizId(quizId);
+        var answers = answerDao.getAnswersByQuestionId(questionId);
 
-        model.addAttribute("questions", questions);
+        var questionNumber = questions.stream()
+                .filter(question -> question.getQuestionId() == questionId)
+                .findFirst();
+
+        if (questionNumber.isPresent())
+        {
+            model.addAttribute("questionNumber", questionNumber.get());
+        }
+        else {
+            model.addAttribute("questionNumber", new Quiz());
+        }
+
+//        model.addAttribute("questions", questions);
+        model.addAttribute("answers", answers);
 
         return "/fragments/quiz-question";
     }
