@@ -5,6 +5,7 @@ import com.nianti.models.Quiz;
 import com.nianti.services.AnswerDao;
 import com.nianti.services.QuestionDao;
 import com.nianti.services.QuizDao;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,9 +18,12 @@ import java.util.ArrayList;
 @Controller
 public class QuizController {
 
-    private QuizDao quizDao = new QuizDao();
-    private QuestionDao questionDao = new QuestionDao();
-    private AnswerDao answerDao = new AnswerDao();
+    @Autowired
+    private QuizDao quizDao;
+    @Autowired
+    private QuestionDao questionDao;
+    @Autowired
+    private AnswerDao answerDao;
 
     @GetMapping("/quiz")
     public String getQuizPage(Model model, @RequestParam int quizId)
@@ -67,25 +71,27 @@ public class QuizController {
         return "quiz/test";
     }
     @GetMapping("/quiz/setup/{quizId}")
-    public String getQuizFragment(Model model, @PathVariable int quizId, @RequestParam int questionId){
+    public String getQuizFragment(Model model, @PathVariable int quizId){
 
         var questions = questionDao.getQuestionsByQuizId(quizId);
-        var answers = answerDao.getAnswersByQuestionId(questionId);
+//        var answers = answerDao.getAnswersByQuestionId(questionId);
 
         var questionNumber = questions.stream()
-                .filter(question -> question.getQuestionId() == questionId)
                 .findFirst();
 
         if (questionNumber.isPresent())
         {
+            int questionId = questionNumber.get().getQuestionId();
+            var answers = answerDao.getAnswersByQuestionId(questionId);
             model.addAttribute("questionNumber", questionNumber.get());
+            model.addAttribute("answers", answers);
         }
         else {
             model.addAttribute("questionNumber", new Quiz());
         }
 
 //        model.addAttribute("questions", questions);
-        model.addAttribute("answers", answers);
+//        model.addAttribute("answers", answers);
 
         return "/fragments/quiz-question";
     }

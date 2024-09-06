@@ -11,11 +11,38 @@
 //
 //}
 
+function getQuestions(quizId)
+{
+const url = `api/quiz/questions/{quizId}`
+fetch(url)
+.then(response -> {return response.json()})
+}
+
+function getAnswers(quizId)
+{
+const url = `api/quiz/answers/{quizId}`;
+fetch(url)
+.then(response -> {return response.json()})
+}
+
+function displayQuestion(currentQuestion, question, answers)
+{
+    const url = `/quiz/setup/{quizId}`;
+    const parentContainer = document.getElementById("container");
+    fetch(url)
+    .then(response => { return response.text() }).then( data => {
+    parentContainer.innerHTML = data;})
+    .catch(error => {
+        console.error("Something went wrong", error)
+    })
+}
+
 
 document.addEventListener("DOMContentLoaded", () => {
     console.log("connected")
 
     const startButton = document.getElementById("start");
+    const currentQuestion = 1;
 
    startButton.addEventListener("click", (e) =>
    {
@@ -37,15 +64,8 @@ document.addEventListener("DOMContentLoaded", () => {
         questionContainer.classList.add("question-container")
 //        questionContainer.innerHTML = "<h1>Question</h1>";
 
-        const url = `/quiz/setup/${id}?questionId=1`;
 
 
-            fetch(url)
-                .then(response => { return response.text() }).then( data => {
-                questionContainer.innerHTML = data;})
-                .catch(error => {
-                    console.error("Something went wrong", error)
-                })
 
         const leftButton = document.createElement("button");
         const rightButton = document.createElement("button");
