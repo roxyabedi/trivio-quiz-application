@@ -1,6 +1,5 @@
 package com.nianti.controllers;
 
-import com.nianti.models.Answer;
 import com.nianti.models.Quiz;
 import com.nianti.services.AnswerDao;
 import com.nianti.services.QuestionDao;
@@ -11,8 +10,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
-
-import java.util.ArrayList;
 
 
 @Controller
@@ -71,19 +68,20 @@ public class QuizController {
         return "quiz/test";
     }
     @GetMapping("/quiz/setup/{quizId}")
-    public String getQuizFragment(Model model, @PathVariable int quizId){
+    public String getQuizFragment(Model model, @PathVariable int quizId, @RequestParam int currentQuestion){
 
         var questions = questionDao.getQuestionsByQuizId(quizId);
-//        var answers = answerDao.getAnswersByQuestionId(questionId);
 
-        var questionNumber = questions.stream()
+        var activeQuestion = questions.stream()
+                .filter(question -> question.getQuestionId() == currentQuestion)
                 .findFirst();
 
-        if (questionNumber.isPresent())
+        if (activeQuestion.isPresent())
         {
-            int questionId = questionNumber.get().getQuestionId();
-            var answers = answerDao.getAnswersByQuestionId(questionId);
-            model.addAttribute("questionNumber", questionNumber.get());
+            var answers = answerDao.getAnswersByQuestionId(currentQuestion);
+            var question = activeQuestion.get().getQuestionText();
+
+            model.addAttribute("activeQuestion", question);
             model.addAttribute("answers", answers);
         }
         else {

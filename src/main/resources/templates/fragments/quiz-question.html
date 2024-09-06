@@ -1,4 +1,4 @@
-<div th:text="${questionNumber.questionText}" id="question-content"></div>
+<div th:text="${activeQuestion}" id="question-content"></div>
 <div id="question-answers">
     <button th:each="answer:${answers}" th:text="${answer.answerText}" th:value="${answer.isCorrect}"></button>
 </div>
