@@ -1,5 +1,4 @@
 DROP DATABASE IF EXISTS trivio;
-
 CREATE DATABASE trivio;
 
 USE trivio;
@@ -97,3 +96,108 @@ VALUES (1, 'Thomas Jefferson', 0)
      , (10, 'Endoplasmic reticulum', 0)
      , (10, 'Mitochondria', 1)
 ;
+-- 1. Pop Culture
+INSERT INTO quiz (quiz_title, is_live) VALUES ('Pop Culture', 1);
+
+INSERT INTO question (quiz_id, question_number, question_text)
+VALUES (3, 1, 'Who played Jack Dawson in the movie Titanic?'),
+       (3, 2, 'What is the name of the fictional town in "Stranger Things"?'),
+       (3, 3, 'Which superhero is known as "The Dark Knight"?'),
+       (3, 4, 'Who won the Grammy Award for Album of the Year in 2022?'),
+       (3, 5, 'Which streaming service is known for producing "The Crown"?');
+
+INSERT INTO answer (question_id, answer_text, is_correct)
+VALUES (11, 'Leonardo DiCaprio', 1),
+       (11, 'Johnny Depp', 0),
+       (11, 'Brad Pitt', 0),
+       (11, 'Tom Hanks', 0),
+
+       (12, 'Hawkins', 1),
+       (12, 'Sunnydale', 0),
+       (12, 'Raccoon City', 0),
+       (12, 'Hill Valley', 0),
+
+       (13, 'Superman', 0),
+       (13, 'Spider-Man', 0),
+       (13, 'Iron Man', 0),
+       (13, 'Batman', 1),
+
+       (14, 'Olivia Rodrigo', 0),
+       (14, 'Billie Eilish', 1),
+       (14, 'Taylor Swift', 0),
+       (14, 'Adele', 0),
+
+       (15, 'Netflix', 1),
+       (15, 'Hulu', 0),
+       (15, 'Amazon Prime Video', 0),
+       (15, 'HBO Max', 0);
+INSERT INTO quiz (quiz_title, is_live) VALUES ('Science', 1);
+
+INSERT INTO question (quiz_id, question_number, question_text)
+VALUES (4, 1, 'What is the chemical symbol for water?'),
+       (4, 2, 'What planet is known as the Red Planet?'),
+       (4, 3, 'What is the hardest natural substance on Earth?'),
+       (4, 4, 'What is the process by which plants make their food?'),
+       (4, 5, 'What gas do plants absorb from the atmosphere for photosynthesis?');
+
+-- 2. Science
+INSERT INTO answer (question_id, answer_text, is_correct)
+VALUES (16, 'H2O', 1),
+       (16, 'CO2', 0),
+       (16, 'O2', 0),
+       (16, 'NaCl', 0),
+
+       (17, 'Mars', 1),
+       (17, 'Venus', 0),
+       (17, 'Jupiter', 0),
+       (17, 'Saturn', 0),
+
+       (18, 'Diamond', 1),
+       (18, 'Gold', 0),
+       (18, 'Platinum', 0),
+       (18, 'Iron', 0),
+
+       (19, 'Photosynthesis', 1),
+       (19, 'Respiration', 0),
+       (19, 'Transpiration', 0),
+       (19, 'Digestion', 0),
+
+       (20, 'Carbon Dioxide', 1),
+       (20, 'Oxygen', 0),
+       (20, 'Nitrogen', 0),
+       (20, 'Hydrogen', 0);
+-- 3. Geography
+INSERT INTO quiz (quiz_title, is_live) VALUES ('Geography', 1);
+
+INSERT INTO question (quiz_id, question_number, question_text)
+VALUES (5, 1, 'What is the capital of France?'),
+       (5, 2, 'Which river is the longest in the world?'),
+       (5, 3, 'Which continent is the Sahara Desert located in?'),
+       (5, 4, 'What is the largest island in the world?'),
+       (5, 5, 'Which country has the most natural lakes?');
+
+INSERT INTO answer (question_id, answer_text, is_correct)
+VALUES (21, 'Paris', 1),
+       (21, 'London', 0),
+       (21, 'Berlin', 0),
+       (21, 'Madrid', 0),
+
+       (22, 'Nile', 1),
+       (22, 'Amazon', 0),
+       (22, 'Yangtze', 0),
+       (22, 'Mississippi', 0),
+
+       (23, 'Africa', 1),
+       (23, 'Asia', 0),
+       (23, 'Australia', 0),
+       (23, 'South America', 0),
+
+       (24, 'Greenland', 1),
+       (24, 'New Guinea', 0),
+       (24, 'Borneo', 0),
+       (24, 'Madagascar', 0),
+
+       (25, 'Canada', 1),
+       (25, 'Russia', 0),
+       (25, 'United States', 0),
+       (25, 'Sweden', 0);
