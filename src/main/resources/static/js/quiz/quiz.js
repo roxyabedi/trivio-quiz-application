@@ -2,6 +2,7 @@ let questionCount = 1;
 let globalId;
 let globalTotalQuestions;
 let globalQuestionsArray;
+let userChoices = {};
 
 async function getQuestions(quizId)
 {
@@ -36,6 +37,39 @@ function displayQuestion(quizId, currentQuestion, parent)
     })
 }
 
+function answerSelect(event)
+{
+    console.log(event.target.innerText)
+    const rightButton = document.getElementById("right-button");
+    const leftButton = document.getElementById("left-button");
+
+    const currentAnswerButton = event.currentTarget;
+    currentAnswerButton.classList.add("selected")
+
+    const choice = event.target.innerText;
+    const isSelected = true;
+
+    userChoices[questionCount] = choice;
+
+    console.log(userChoices);
+
+    if(isSelected && questionCount >= 1)
+    {
+        rightButton.disabled = false;
+
+    }
+
+    if(isSelected && questionCount > 1)
+    {
+        leftButton.disabled = false;
+    }
+
+    if(questionCount == 1)
+    {
+        leftButton.disable = true;
+    }
+}
+
 function questionNavigation(event)
 {
     console.log("pressed button")
@@ -43,6 +77,11 @@ function questionNavigation(event)
     const choice = event.target.innerText;
     const parent = document.querySelector(".question-container")
     const counter = document.querySelector(".question-counter")
+    const rightButton = document.getElementById("right-button")
+    const leftButton = document.getElementById("left-button")
+    let answerButtons;
+
+    console.log(answerButtons, "answers")
 
     if(choice == ">" && questionCount < globalTotalQuestions)
     {
@@ -51,6 +90,15 @@ function questionNavigation(event)
         console.log(questionCount)
         displayQuestion(globalId, questionCount, parent)
         console.log("right")
+        rightButton.disabled = true
+        console.log(answerButtons, "answers")
+        if(questionCount == globalTotalQuestions)
+                {
+                    rightButton.innerText = "Submit";
+                }
+        else {
+            rightButton.innerText = ">";
+        }
     }
 
      if(choice == "<" && questionCount > 1 )
@@ -60,7 +108,30 @@ function questionNavigation(event)
         console.log(questionCount)
         displayQuestion(globalId, questionCount, parent)
         console.log("left")
+        console.log(answerButtons, "answers")
+        if(questionCount == 1)
+        {
+            leftButton.disabled = true
+        }
+        if(rightButton.innerText == "Submit")
+        {
+            rightButton.innerText = ">"
+        }
     }
+
+        answerButtons = document.querySelectorAll(".answer-buttons")
+
+        console.log(answerButtons, "test")
+
+//        answerButtons.forEach((answer) => {
+//
+//            console.log(answer.innerText, "text")
+//            if(answer.innerText == userChoices[questionCount])
+//            {
+//
+//                answer.classList.add("selected");
+//            }
+//        })
 
 }
 
@@ -100,6 +171,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const leftButton = document.createElement("button");
         const rightButton = document.createElement("button");
+        leftButton.id = "left-button";
+        rightButton.id = "right-button";
+        leftButton.disabled = true;
+        rightButton.disabled = true;
 
         leftButton.textContent = "<";
         rightButton.textContent = ">";

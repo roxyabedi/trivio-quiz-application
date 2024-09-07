@@ -21,6 +21,7 @@ body {
     width: 100%;
     text-align: center;
     padding: 50px;
+    border-radius: 10px;
 }
 /*
 #question-answers {
@@ -39,13 +40,22 @@ body {
     gap: 10px;
     margin: 2vh 0 2vh 0;
 }
-#question-answers > button {
+
+.answer-buttons {
     display: flex;
     justify-content: center;
     align-items: center;
     border: 1px solid #ddd;
     border-radius: 1vh 1vh 1vh 1vh;
     padding: 1vh;
+}
+
+.selected {
+    border: solid 1px green;
+}
+
+.answer-buttons:hover {
+    border: solid 1px green;
 }
 
 #buttons {
