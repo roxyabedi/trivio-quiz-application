@@ -58,13 +58,17 @@ function answerSelect(event)
 {
     const rightButton = document.getElementById("right-button")
     const leftButton = document.getElementById("left-button")
+    const answerButtons = document.querySelector("#question-answers")
+    const answerButtonsChildren = answerButtons.querySelectorAll("button")
 
     const currentAnswerButton = event.currentTarget
-    currentAnswerButton.classList.add("btn", "btn-primary")
-    currentAnswerButton.style.color = "white"
     const choice = event.target.innerText
 
     userChoices[questionCount] = choice;
+
+    const previousChoice = answerButtons.querySelector(".btn-primary")
+    previousChoice == null && currentAnswerButton ? null : previousChoice.classList.remove("btn-primary")
+    currentAnswerButton.classList.add("btn-primary")
 
     if(questionCount >= 1)
     {
@@ -134,8 +138,6 @@ function questionNavigation(event)
             rightButton.innerText = ">"
         }
     }
-
-        answerButtons = document.querySelectorAll(".answer-buttons")
 
 }
 

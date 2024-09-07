@@ -42,31 +42,6 @@ public class QuizController {
         return "quiz/index";
     }
 
-    @GetMapping("/quiz/{quizId}")
-    public String getQuiz(Model model, @PathVariable int quizId)
-    {
-
-        var questions = questionDao.getQuestionsByQuizId(quizId);
-        var quizzes = quizDao.getAllQuizzes();
-
-        var quizModel = quizzes.stream()
-                .filter(quiz -> quiz.getQuizId() == quizId)
-                .findFirst();
-
-        if (quizModel.isPresent())
-        {
-            model.addAttribute("quizModel", quizModel.get());
-        }
-        else {
-            model.addAttribute("quizModel", new Quiz());
-        }
-
-        model.addAttribute("questions", questions);
-        model.addAttribute("quiz", quizzes);
-        model.addAttribute("id", quizId);
-
-        return "quiz/test";
-    }
     @GetMapping("/quiz/setup/{quizId}")
     public String getQuizFragment(Model model, @PathVariable int quizId, @RequestParam int currentQuestion){
 
@@ -88,9 +63,6 @@ public class QuizController {
         else {
             model.addAttribute("questionNumber", new Quiz());
         }
-
-//        model.addAttribute("questions", questions);
-//        model.addAttribute("answers", answers);
 
         return "/fragments/quiz-question";
     }
