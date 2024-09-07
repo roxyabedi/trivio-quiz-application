@@ -61,8 +61,8 @@ function answerSelect(event)
     const leftButton = document.getElementById("left-button");
 
     const currentAnswerButton = event.currentTarget;
-    currentAnswerButton.classList.add("selected")
-
+    currentAnswerButton.classList.add("btn", "btn-primary");
+    currentAnswerButton.style.color = "white";
     const choice = event.target.innerText;
     const isSelected = true;
 
@@ -174,6 +174,7 @@ document.addEventListener("DOMContentLoaded", () => {
     console.log("connected")
 
     const startButton = document.getElementById("start");
+    startButton.classList.add("btn", "btn-primary");
 
    startButton.addEventListener("click", async (e) =>
    {
@@ -206,6 +207,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const leftButton = document.createElement("button");
         const rightButton = document.createElement("button");
+        rightButton.classList.add("btn", "btn-primary");
+        leftButton.classList.add("btn", "btn-primary");
         leftButton.id = "left-button";
         rightButton.id = "right-button";
         leftButton.disabled = true;

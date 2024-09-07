@@ -1,4 +1,4 @@
-<div th:text="${activeQuestion}" id="question-content"></div>
+<div class="card" th:text="${activeQuestion}" id="question-content"></div>
 <div id="question-answers">
-    <button class="answer-buttons" th:each="answer:${answers}" th:text="${answer.answerText}" onclick="answerSelect(event)"></button>
+    <button class="btn btn-outline-primary" th:each="answer:${answers}" th:text="${answer.answerText}" onclick="answerSelect(event)"></button>
 </div>
