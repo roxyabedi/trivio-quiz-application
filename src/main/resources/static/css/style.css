@@ -41,3 +41,8 @@ body {
     text-align: center;
     padding: 50px;
 }
+
+.material-symbols-outlined {
+    font-size: 100px;
+    text-align: center;
+}
