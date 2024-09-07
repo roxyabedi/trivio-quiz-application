@@ -24,17 +24,18 @@ async function getAnswers(quizId) {
     try {
         const response = await fetch(url);
         const data = await response.json();
-        console.log(data, "data")
+        let count = 1;
 
-        data.forEach(question => { question.forEach(
-        answer => {if(answer.correct == true)
-         {
-            correctAnswers[answer.answerId] = answer.answerText
-         }})
-         }
-        )}
-    catch (error) {
-    console.error('Error fetching answers:', error);
+        data.forEach(question => {
+            question.forEach(answer => {
+                if (answer.correct == true) {
+                    correctAnswers[count] = answer.answerText;
+                    count++
+                }
+            });
+        });
+    } catch (error) {
+        console.error('Error fetching answers:', error);
     }
 }
 
@@ -67,8 +68,6 @@ function answerSelect(event)
 
     userChoices[questionCount] = choice;
 
-    console.log(userChoices);
-
     if(isSelected && questionCount >= 1)
     {
         rightButton.disabled = false;
@@ -88,8 +87,6 @@ function answerSelect(event)
 
 function questionNavigation(event)
 {
-    console.log("pressed button")
-    console.log(event.target.innerText);
     const choice = event.target.innerText;
     const parent = document.querySelector(".question-container")
     const counter = document.querySelector(".question-counter")
@@ -97,17 +94,13 @@ function questionNavigation(event)
     const leftButton = document.getElementById("left-button")
     let answerButtons;
 
-//    console.log(answerButtons, "answers")
-
     if(choice == ">" && questionCount < globalTotalQuestions)
     {
         questionCount++
         counter.innerHTML = `${questionCount}/${globalTotalQuestions}`
-        console.log(questionCount)
         displayQuestion(globalId, questionCount, parent)
-        console.log("right")
         rightButton.disabled = true
-//        console.log(answerButtons, "answers")
+
         if(questionCount == globalTotalQuestions)
                 {
                     rightButton.innerText = "Submit";
@@ -127,8 +120,7 @@ function questionNavigation(event)
         counter.innerHTML = `${questionCount}/${globalTotalQuestions}`
         console.log(questionCount)
         displayQuestion(globalId, questionCount, parent)
-        console.log("left")
-//        console.log(answerButtons, "answers")
+
         if(questionCount == 1)
         {
             leftButton.disabled = true
@@ -141,21 +133,9 @@ function questionNavigation(event)
 
         answerButtons = document.querySelectorAll(".answer-buttons")
 
-        console.log(answerButtons, "test")
-
-//        answerButtons.forEach((answer) => {
-//
-//            console.log(answer.innerText, "text")
-//            if(answer.innerText == userChoices[questionCount])
-//            {
-//
-//                answer.classList.add("selected");
-//            }
-//        })
-
 }
 
-function submitQuiz()
+async function submitQuiz()
 {
     const answersContainer = document.getElementById("question-answers");
     const questionBox = document.getElementById("question-content");
@@ -168,18 +148,16 @@ function submitQuiz()
     answersContainer.remove();
     questionCounter.remove();
 
-    getAnswers(globalId);
-    console.log(Object.keys(correctAnswers), "hello")
-    console.log(correctAnswers, "correct")
-    console.log(correctAnswers, "test");
+    await getAnswers(globalId);
+    console.log(correctAnswers, "after fetch");
+
 
     for(key in userChoices)
      {
-        console.log(userChoices[key], "user")
-        console.log(Object.values(correctAnswers), "correctAns")
+        console.log(userChoices[key], "current Search")
         if(Object.values(correctAnswers).includes(userChoices[key]))
         {
-            score++
+            score++;
         }
      }
 
