@@ -40,11 +40,11 @@ async function getAnswers(quizId) {
 }
 
 
-function displayQuestion(quizId, currentQuestion, parent)
+async function displayQuestion(quizId, currentQuestion, parent)
 {
     const url = `/quiz/setup/${quizId}?currentQuestion=${currentQuestion}`;
 
-    fetch(url)
+    await fetch(url)
         .then(response => { return response.text() })
         .then( data => {
             parent.innerHTML = data;
@@ -67,8 +67,9 @@ function answerSelect(event)
     userChoices[questionCount] = choice;
 
     const previousChoice = answerButtons.querySelector(".btn-primary")
-    previousChoice == null && currentAnswerButton ? null : previousChoice.classList.remove("btn-primary")
+    previousChoice == null ? null : (previousChoice.classList.remove("btn-primary"), previousChoice.classList.add("btn-outline-primary"))
     currentAnswerButton.classList.add("btn-primary")
+    currentAnswerButton.classList.remove("btn-outline-primary")
 
     if(questionCount >= 1)
     {
@@ -79,35 +80,41 @@ function answerSelect(event)
     {
         leftButton.disabled = false
     }
-
-    if(questionCount == 1)
-    {
-        leftButton.disabled = true
-    }
 }
 
-function questionNavigation(event)
+async function questionNavigation(event)
 {
     const choice = event.target.innerText
     const parent = document.querySelector(".question-container")
     const counter = document.querySelector(".question-counter")
     const rightButton = document.getElementById("right-button")
-    const leftButton = document.getElementById("left-button")
-    let answerButtons;
+    const buttonNavParent = document.getElementById("buttons")
+    let leftButton = document.getElementById("left-button")
+    const answerButtons = document.getElementById("question-answers")
 
     //NEXT && 1-4
     if(choice == ">" && questionCount < globalTotalQuestions)
     {
         questionCount++
         counter.innerHTML = `${questionCount}/${globalTotalQuestions}`
-        displayQuestion(globalId, questionCount, parent)
+        await displayQuestion(globalId, questionCount, parent)
         rightButton.disabled = true
+
+
 
         if(questionCount > 1)
         {
-            leftButton.disabled = false
+            if(leftButton == null)
+            {leftButton = document.createElement("button")
+            leftButton.classList.add("btn", "btn-primary")
+            leftButton.id = "left-button"
+            leftButton.textContent = "<"
+            leftButton.addEventListener("click", questionNavigation)
+            buttonNavParent.append(leftButton)
+            buttonNavParent.append(rightButton)
+            }
         }
-
+        console.log(questionCount, "count")
         //CHECK IF AT END OF TEST
         if(questionCount == globalTotalQuestions)
         {
@@ -115,30 +122,32 @@ function questionNavigation(event)
             rightButton.removeEventListener("click", questionNavigation)
             rightButton.addEventListener("click", submitQuiz)
         }
-        else
+    }
+    //NEXT && 2-5
+    if(choice == "<" && questionCount > 1 )
+    {
+        questionCount--
+        console.log(questionCount, "counter")
+        counter.innerHTML = `${questionCount}/${globalTotalQuestions}`
+        await displayQuestion(globalId, questionCount, parent)
+
+        if(questionCount == 1)
+        {
+            leftButton.remove()
+        }
+        if(rightButton.innerText == "Submit")
+        {
+            rightButton.innerText = ">"
+        }
+        if(questionCount < globalTotalQuestions)
         {
             rightButton.innerText = ">";
             rightButton.removeEventListener("click", submitQuiz)
             rightButton.addEventListener("click", questionNavigation)
         }
     }
-    //NEXT && 2-5
-    if(choice == "<" && questionCount > 1 )
-    {
-        questionCount--
-        counter.innerHTML = `${questionCount}/${globalTotalQuestions}`
-        displayQuestion(globalId, questionCount, parent)
 
-        if(questionCount == 1)
-        {
-            leftButton.disabled = true
-        }
-        if(rightButton.innerText == "Submit")
-        {
-            rightButton.innerText = ">"
-        }
-    }
-
+    userAnswerSelected()
 }
 
 async function submitQuiz()
@@ -171,6 +180,27 @@ async function submitQuiz()
     rightButton.addEventListener("click", () => {
         window.location.href = '/'
     })
+}
+
+function userAnswerSelected()
+{
+    const questionParent = document.getElementById("question-answers")
+
+    const questionChildren = questionParent.querySelectorAll("button")
+
+    const rightButton = document.querySelector("#right-button")
+
+    for(let i = 0; i < questionChildren.length; i++)
+    {
+        const child = questionChildren[i]
+        if(child.innerText == userChoices[questionCount])
+        {
+            child.classList.add("btn-primary")
+            child.classList.remove("btn-outline-primary")
+            rightButton.disabled = false
+            break
+        }
+    }
 }
 
 
@@ -207,24 +237,17 @@ document.addEventListener("DOMContentLoaded", () => {
         questionContainer.classList.add("question-container")
         displayQuestion(id, currentQuestion, questionContainer)
 
-        //Navigation Buttons < >
-        const leftButton = document.createElement("button")
+        //Right Navigation Buttons >
         const rightButton = document.createElement("button")
         rightButton.classList.add("btn", "btn-primary")
-        leftButton.classList.add("btn", "btn-primary")
-        leftButton.id = "left-button"
         rightButton.id = "right-button"
-        leftButton.disabled = true
         rightButton.disabled = true
 
-        leftButton.textContent = "<"
         rightButton.textContent = ">"
 
-        leftButton.addEventListener("click", questionNavigation)
         rightButton.addEventListener("click", questionNavigation)
 
         //Appends
-        buttonContainer.append(leftButton)
         buttonContainer.append(rightButton)
 
         parentContainer.append(questionCounter)
