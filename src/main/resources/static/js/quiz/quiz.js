@@ -96,11 +96,9 @@ async function questionNavigation(event)
     if(choice == ">" && questionCount < globalTotalQuestions)
     {
         questionCount++
-        counter.innerHTML = `${questionCount}/${globalTotalQuestions}`
+        counter.innerHTML = `${questionCount} / ${globalTotalQuestions}`
         await displayQuestion(globalId, questionCount, parent)
         rightButton.disabled = true
-
-
 
         if(questionCount > 1)
         {
@@ -128,7 +126,7 @@ async function questionNavigation(event)
     {
         questionCount--
         console.log(questionCount, "counter")
-        counter.innerHTML = `${questionCount}/${globalTotalQuestions}`
+        counter.innerHTML = `${questionCount} / ${globalTotalQuestions}`
         await displayQuestion(globalId, questionCount, parent)
 
         if(questionCount == 1)
@@ -155,6 +153,8 @@ async function submitQuiz()
     const answersContainer = document.getElementById("question-answers");
     const questionBox = document.getElementById("question-content");
     const questionCounter = document.querySelector(".question-counter");
+    const questionContainer = document.getElementById("question-container");
+    const questionTitle = document.querySelector(".question-title")
 
     const leftButton = document.getElementById("left-button");
     const rightButton = document.getElementById("right-button");
@@ -162,6 +162,7 @@ async function submitQuiz()
     leftButton.remove();
     answersContainer.remove();
     questionCounter.remove();
+    questionTitle.remove()
 
     await getAnswers(globalId);
 
@@ -175,7 +176,10 @@ async function submitQuiz()
      }
 
     rightButton.innerText = "Home"
-    questionBox.innerText = `${score}/${globalTotalQuestions}`
+//    questionBox.style.width = "fit-content"
+    questionBox.style.display = "flex"
+    questionBox.style.justifyContent = "center"
+    questionBox.innerText = `${score} / ${globalTotalQuestions}`
 
     rightButton.addEventListener("click", () => {
         window.location.href = '/'
@@ -227,9 +231,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
         //Counter
+        const questionTitle = document.createElement("div")
         const questionCounter = document.createElement("div")
         questionCounter.classList.add("question-counter")
-        questionCounter.textContent = `${questionCount}/${totalQuestions}`
+        questionTitle.classList.add("question-title")
+        questionTitle.textContent = "Question :"
+        questionCounter.textContent = `${questionCount} / ${totalQuestions}`
 
 
         //Container
@@ -250,6 +257,7 @@ document.addEventListener("DOMContentLoaded", () => {
         //Appends
         buttonContainer.append(rightButton)
 
+        parentContainer.append(questionTitle)
         parentContainer.append(questionCounter)
         parentContainer.append(questionContainer)
         parentContainer.append(buttonContainer)

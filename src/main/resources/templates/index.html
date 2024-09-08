@@ -15,7 +15,7 @@
         <span class="material-symbols-outlined">cognition</span>
                 <div class="card-body">
                     <h5 class="card-title" th:text="${quiz.title}"></h5>
-                    <p class="card-text" th:text="${quiz.title}"></p>
+                    <p class="card-text" th:text="${quiz.quizDescription}"></p>
                     <a th:href="@{/quiz?quizId={id}(id=${quiz.quizId})}" class="btn btn-primary">Take Quiz</a>
                 </div>
             </div>
