@@ -19,16 +19,16 @@
                             <h5 class="modal-title" id="exampleModalLabel">Add Quiz</h5>
                         </div>
                         <div class="modal-body">
-                            <form id="form" action="/quizzes" method="post" th:object="${quiz}">
-                                <input th:field="*{title}" class="form-control form-control-lg" placeholder="Quiz Title:" style="border:none; outline:none" type="text" id="quiz-name" name="quiz-name">
+                            <form id="form" method="post" th:object="${quiz}" th:class="${IsInvalid} ? 'was-validated' : '' " novalidate>
+                                <input th:field="*{title}" class="form-control form-control-lg" placeholder="Quiz Title:" type="text" id="quiz-name" name="quiz-name" required>
                                 <br>
                                 <label for="quiz-desc">Description:</label>
-                                <textarea th:field="*{quizDescription}" class="form-control" style="resize: none" id="quiz-desc" name="quiz-desc"> </textarea>
+                                <textarea th:field="*{quizDescription}" class="form-control " style="resize: none" id="quiz-desc" name="quiz-desc" required> </textarea>
                             </form>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button id="submit" type="submit" class="btn btn-primary" >Add Quiz</button>
+                            <button id="submit" class="btn btn-primary" >Add Quiz</button>
                         </div>
                     </div>
                 </div>
