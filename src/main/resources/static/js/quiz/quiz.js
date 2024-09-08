@@ -6,6 +6,7 @@ let userChoices = {};
 let correctAnswers = {};
 let score = 0;
 
+//Get Question for chosen test
 async function getQuestions(quizId)
 {
     const url = `api/quiz/questions/${quizId}`;
@@ -19,6 +20,7 @@ async function getQuestions(quizId)
 
 }
 
+//Get Correct Answers for chosen test
 async function getAnswers(quizId) {
     const url = `api/quiz/answers/${quizId}`;
     try {
@@ -39,7 +41,7 @@ async function getAnswers(quizId) {
     }
 }
 
-
+//Retrieves the Thymeleaf fragment to display
 async function displayQuestion(quizId, currentQuestion, parent)
 {
     const url = `/quiz/setup/${quizId}?currentQuestion=${currentQuestion}`;
@@ -54,6 +56,7 @@ async function displayQuestion(quizId, currentQuestion, parent)
     })
 }
 
+//Used to CHOOSE and STORE answer choices.
 function answerSelect(event)
 {
     const rightButton = document.getElementById("right-button")
@@ -66,11 +69,13 @@ function answerSelect(event)
 
     userChoices[questionCount] = choice;
 
+    //Checks If question was already answered
     const previousChoice = answerButtons.querySelector(".btn-primary")
     previousChoice == null ? null : (previousChoice.classList.remove("btn-primary"), previousChoice.classList.add("btn-outline-primary"))
     currentAnswerButton.classList.add("btn-primary")
     currentAnswerButton.classList.remove("btn-outline-primary")
 
+    //Activates/Deactivate Question Navigation Buttons
     if(questionCount >= 1)
     {
         rightButton.disabled = false
@@ -82,6 +87,7 @@ function answerSelect(event)
     }
 }
 
+//Used to navigate between questions
 async function questionNavigation(event)
 {
     const choice = event.target.innerText
@@ -90,30 +96,26 @@ async function questionNavigation(event)
     const rightButton = document.getElementById("right-button")
     const buttonNavParent = document.getElementById("buttons")
     let leftButton = document.getElementById("left-button")
-    const answerButtons = document.getElementById("question-answers")
 
-    //NEXT && 1-4
-    if(choice == ">" && questionCount < globalTotalQuestions)
+    //NEXT
+    if(choice == ">")
     {
         questionCount++
-        counter.innerHTML = `${questionCount} / ${globalTotalQuestions}`
-        await displayQuestion(globalId, questionCount, parent)
         rightButton.disabled = true
 
-        if(questionCount > 1)
+        //ADDS PREV BUTTON IF DOESN'T EXIST
+        if(leftButton == null)
         {
-            if(leftButton == null)
-            {leftButton = document.createElement("button")
+            leftButton = document.createElement("button")
             leftButton.classList.add("btn", "btn-primary")
             leftButton.id = "left-button"
             leftButton.textContent = "<"
             leftButton.addEventListener("click", questionNavigation)
             buttonNavParent.append(leftButton)
             buttonNavParent.append(rightButton)
-            }
         }
 
-        //CHECK IF AT END OF TEST
+        //CHECK IF AT END
         if(questionCount == globalTotalQuestions)
         {
             rightButton.innerText = "Submit";
@@ -121,33 +123,33 @@ async function questionNavigation(event)
             rightButton.addEventListener("click", submitQuiz)
         }
     }
-    //NEXT && 2-5
-    if(choice == "<" && questionCount > 1 )
+    //BACK
+    if(choice == "<")
     {
         questionCount--
-        console.log(questionCount, "counter")
-        counter.innerHTML = `${questionCount} / ${globalTotalQuestions}`
-        await displayQuestion(globalId, questionCount, parent)
 
+        //CHECK IF AT BEGINNING
         if(questionCount == 1)
         {
             leftButton.remove()
         }
+
+        //Revert SUBMIT back to ">"
         if(rightButton.innerText == "Submit")
-        {
-            rightButton.innerText = ">"
-        }
-        if(questionCount < globalTotalQuestions)
         {
             rightButton.innerText = ">";
             rightButton.removeEventListener("click", submitQuiz)
             rightButton.addEventListener("click", questionNavigation)
         }
     }
-
+    //Updates Counter && gets next set of questions to display
+    counter.innerHTML = `${questionCount} / ${globalTotalQuestions}`
+    await displayQuestion(globalId, questionCount, parent)
+    //checks for questions already answered
     userAnswerSelected()
 }
 
+//When quiz is submitted
 async function submitQuiz()
 {
     const answersContainer = document.getElementById("question-answers");
@@ -155,40 +157,40 @@ async function submitQuiz()
     const questionCounter = document.querySelector(".question-counter");
     const questionContainer = document.getElementById("question-container");
     const questionTitle = document.querySelector(".question-title")
-
     const leftButton = document.getElementById("left-button");
     const rightButton = document.getElementById("right-button");
 
+    //Removes elements not use at end quiz screen
     leftButton.remove();
     answersContainer.remove();
     questionCounter.remove();
     questionTitle.innerText = "Final Score"
 
+    //Calculates Score
     await getAnswers(globalId);
-
     for(key in userChoices)
      {
-        console.log(userChoices[key], "current Search")
         if(Object.values(correctAnswers).includes(userChoices[key]))
         {
             score++;
         }
      }
 
+    //Display Score
     rightButton.innerText = "Home"
     questionBox.innerText = `${score} / ${globalTotalQuestions}`
 
+    //Redirect User
     rightButton.addEventListener("click", () => {
         window.location.href = '/'
     })
 }
 
+//Used to reselect PREVIOUSLY SELECTED answers
 function userAnswerSelected()
 {
     const questionParent = document.getElementById("question-answers")
-
     const questionChildren = questionParent.querySelectorAll("button")
-
     const rightButton = document.querySelector("#right-button")
 
     for(let i = 0; i < questionChildren.length; i++)
