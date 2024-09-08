@@ -112,7 +112,7 @@ async function questionNavigation(event)
             buttonNavParent.append(rightButton)
             }
         }
-        console.log(questionCount, "count")
+
         //CHECK IF AT END OF TEST
         if(questionCount == globalTotalQuestions)
         {
@@ -162,7 +162,7 @@ async function submitQuiz()
     leftButton.remove();
     answersContainer.remove();
     questionCounter.remove();
-    questionTitle.remove()
+    questionTitle.innerText = "Final Score"
 
     await getAnswers(globalId);
 
@@ -176,9 +176,6 @@ async function submitQuiz()
      }
 
     rightButton.innerText = "Home"
-//    questionBox.style.width = "fit-content"
-    questionBox.style.display = "flex"
-    questionBox.style.justifyContent = "center"
     questionBox.innerText = `${score} / ${globalTotalQuestions}`
 
     rightButton.addEventListener("click", () => {
