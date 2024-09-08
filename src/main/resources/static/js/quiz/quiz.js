@@ -141,6 +141,7 @@ async function questionNavigation(event)
             rightButton.removeEventListener("click", submitQuiz)
             rightButton.addEventListener("click", questionNavigation)
         }
+
     }
     //Updates Counter && gets next set of questions to display
     counter.innerHTML = `${questionCount} / ${globalTotalQuestions}`

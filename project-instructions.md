@@ -107,15 +107,6 @@ questions from this list.
 
 Your project should include a README file. Take the time to document your project in the README. Include the following sections.
 
-#### Describe your project
-
-Describe the purpose of the project. Explain the features and instruct a user on how they can use the project.
-Include screenshots to engage the reader more.
-
-#### Describe your development process
-
-Describe your planning and design process. Include screenshots of your design diagrams and possibly your trello board
-to demonstrate your workflow.
 
 #### Describe your Code
 
