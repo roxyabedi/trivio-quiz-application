@@ -51,4 +51,18 @@ public class QuizDao
 
         return new Quiz(id, title, isLive, quizDescription);
     }
+
+    public void addQuiz(Quiz quiz)
+    {
+        String sql = """
+                INSERT INTO quiz
+                (quiz_title, quiz_description)
+                VALUES (?, ?);
+                """;
+
+        jdbcTemplate.update(sql,
+                            quiz.getTitle(),
+                            quiz.getQuizDescription());
+
+    }
 }

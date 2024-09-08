@@ -17,11 +17,13 @@ public class HomeController
     {
         var quizzes = quizDao.getAllQuizzes();
 
+        var liveQuizzes = quizzes.stream()
+                .filter(quiz -> quiz.isLive())
+                .toList();
+
         model.addAttribute("title", "Trivio Home");
-        model.addAttribute("quizzes", quizzes);
-
-
-
+        model.addAttribute("quizzes", liveQuizzes);
+        
         return "index";
     }
 }
