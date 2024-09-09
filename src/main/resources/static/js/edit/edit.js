@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     submitQuiz.addEventListener("click", () =>
     {
-        submitForm.submit();
+        submitForm.requestSubmit();
     })
 
     titleInput.addEventListener("input", (e) =>
