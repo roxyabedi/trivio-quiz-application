@@ -43,7 +43,7 @@ public class editController
             model.addAttribute("IsInvalid", true);
             model.addAttribute("quizzes", quizzes);
 
-            return "edit/index-modal-open";
+            return "edit/index";
         }
 
         quizDao.addQuiz(quiz);

@@ -7,11 +7,9 @@
         <div th:replace="fragments/navigation :: nav"></div>
         <div class="container mt-4">
             <h1>Quiz Management</h1>
-            <!-- Button trigger modal -->
             <button type="button" class="btn btn-outline-info mb-4" data-bs-toggle="modal" data-bs-target="#add-quiz">
                 Add Quiz
             </button>
-            <!-- Modal -->
             <div class="modal fade" id="add-quiz" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered" role="document">
                     <div class="modal-content">
@@ -28,7 +26,7 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button id="submit" class="btn btn-primary" >Add Quiz</button>
+                            <button id="submit" class="btn btn-primary">Add Quiz</button>
                         </div>
                     </div>
                 </div>

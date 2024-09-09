@@ -4,6 +4,12 @@ document.addEventListener("DOMContentLoaded", () => {
     const titleInput = document.getElementById("quiz-name")
     const descInput = document.getElementById("quiz-desc")
     const modalMenu = document.getElementById("add-quiz")
+    const modalButton = document.getElementById("modal-trigger");
+
+    submitQuiz.addEventListener("click", () =>
+    {
+        submitForm.submit();
+    })
 
     titleInput.addEventListener("input", (e) =>
     {
@@ -15,27 +21,15 @@ document.addEventListener("DOMContentLoaded", () => {
         submitForm.classList.remove("was-validated")
     })
 
-    submitForm.addEventListener("submit", () =>
+
+    submitForm.addEventListener("submit", (event) =>
     {
+        //Form is good
         if(!submitForm.checkValidity())
         {
             event.preventDefault()
-            event.stopPropagation();
+            event.stopPropagation()
             submitForm.classList.add("was-validated")
-            modalMenu.style.display = "none"
-
         }
     })
-
-
-    submitQuiz.addEventListener("click", () =>
-    {
-
-        submitForm.submit();
-        modalMenu.style.display = "block"
-
-    })
-
-
-
 });
