@@ -51,3 +51,8 @@ body {
 .question-container {
     width: 40vw;
 }
+
+.col {
+    display: flex;
+    justify-content: center;
+}
