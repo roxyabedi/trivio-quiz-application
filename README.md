@@ -139,18 +139,29 @@ Revised the approach to use `.requestSubmit()` instead of `.submit()`. The `requ
 
 **Code:**
 ```java
-@PostMapping("/quizzes")
-public String addQuiz(Model model, @Valid @ModelAttribute("quiz") Quiz quiz, BindingResult result)
-{
-    if(result.hasErrors()){
+@GetMapping("/quiz/setup/{quizId}")
+public String getQuizFragment(Model model, @PathVariable int quizId, @RequestParam int currentQuestion){
 
-        var quizzes = quizDao.getAllQuizzes();
-        model.addAttribute("IsInvalid", true);
-        model.addAttribute("quizzes", quizzes);
-        return "edit/index";
+    var questions = questionDao.getQuestionsByQuizId(quizId);
+
+    var activeQuestion = questions.stream()
+            .filter(question -> question.getQuestionNumber() == currentQuestion)
+            .findFirst();
+
+    if (activeQuestion.isPresent())
+    {
+        var question = activeQuestion.get().getQuestionText();
+        var questionId = activeQuestion.get().getQuestionId();
+        var answers = answerDao.getAnswersByQuestionId(questionId);
+
+        model.addAttribute("activeQuestion", question);
+        model.addAttribute("answers", answers);
     }
-    quizDao.addQuiz(quiz);
-    return "redirect:/quizzes";
+    else {
+        model.addAttribute("questionNumber", new Quiz());
+    }
+
+    return "/fragments/quiz-question";
 }
 ```
 #### Jordan's favorite block of code
