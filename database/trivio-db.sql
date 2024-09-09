@@ -33,7 +33,7 @@ CREATE TABLE answer
 -- Insert quizzes
 INSERT INTO quiz (quiz_title, quiz_description, is_live) VALUES
 ('General History', 'A quiz covering significant events and figures in world history.', 1),
-('Academic Trivia', 'A quiz with questions on various academic subjects including chemistry, mathematics, and literature.', 0),
+('Academic Trivia', 'A quiz with questions on various academic subjects including chemistry, mathematics, and literature.', 1),
 ('Pop Culture', 'A quiz focused on recent popular culture, including movies, TV shows, and celebrities.', 1),
 ('Science', 'A quiz about fundamental scientific concepts and discoveries.', 1),
 ('Geography', 'A quiz exploring geographical knowledge, including countries, rivers, and landmarks.', 1);
