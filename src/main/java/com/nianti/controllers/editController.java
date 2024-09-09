@@ -35,19 +35,14 @@ public class editController
     @PostMapping("/quizzes")
     public String addQuiz(Model model, @Valid @ModelAttribute("quiz") Quiz quiz, BindingResult result)
     {
-
-
         if(result.hasErrors()){
 
             var quizzes = quizDao.getAllQuizzes();
             model.addAttribute("IsInvalid", true);
             model.addAttribute("quizzes", quizzes);
-
             return "edit/index";
         }
-
         quizDao.addQuiz(quiz);
-        //model.addAttribute("quiz", quiz);
         return "redirect:/quizzes";
     }
 }
