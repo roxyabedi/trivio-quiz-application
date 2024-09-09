@@ -1,5 +1,6 @@
 package com.nianti.models;
 
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 
 import java.util.ArrayList;
@@ -7,10 +8,10 @@ import java.util.ArrayList;
 public class Quiz
 {
     private int quizId;
-    @NotEmpty(message="Add Title")
+    @NotBlank(message="Add Title")
     private String title;
     private boolean isLive;
-    @NotEmpty(message="Add Description")
+    @NotBlank(message="Add Description")
     private String quizDescription;
 
     private ArrayList<Question> questions = new ArrayList<>();
