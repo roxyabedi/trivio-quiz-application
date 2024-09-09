@@ -108,13 +108,6 @@ questions from this list.
 Your project should include a README file. Take the time to document your project in the README. Include the following sections.
 
 
-#### Describe your Code
-
-Discuss any challenges that you had while developing this project.
-* What was the problem?
-* How did you approach the problem?
-* What was the final solution?
-
 Show a block of code that you are particularly proud of (one block for each team member).
 
 #### Retrospective

@@ -207,3 +207,70 @@ INSERT INTO answer (question_id, answer_text, is_correct) VALUES
 (25, 'Russia', 0),
 (25, 'United States', 0),
 (25, 'Sweden', 0);
+
+-- Insert questions and answers for 'World Capitals'
+INSERT INTO quiz (quiz_title, quiz_description, is_live) VALUES
+('World Capitals', 'Test your knowledge of world capitals with this quiz covering major cities around the globe.', 1);
+
+INSERT INTO question (quiz_id, question_number, question_text) VALUES
+(6, 1, 'What is the capital of Japan?'),
+(6, 2, 'What is the capital of Australia?'),
+(6, 3, 'What is the capital of Canada?'),
+(6, 4, 'What is the capital of Brazil?'),
+(6, 5, 'What is the capital of South Africa?'),
+(6, 6, 'What is the capital of India?'),
+(6, 7, 'What is the capital of Russia?'),
+(6, 8, 'What is the capital of Egypt?'),
+(6, 9, 'What is the capital of Mexico?'),
+(6, 10, 'What is the capital of Argentina?');
+
+INSERT INTO answer (question_id, answer_text, is_correct) VALUES
+(26, 'Tokyo', 1),
+(26, 'Beijing', 0),
+(26, 'Seoul', 0),
+(26, 'Hong Kong', 0),
+
+(27, 'Canberra', 1),
+(27, 'Sydney', 0),
+(27, 'Melbourne', 0),
+(27, 'Brisbane', 0),
+
+(28, 'Ottawa', 1),
+(28, 'Toronto', 0),
+(28, 'Vancouver', 0),
+(28, 'Montreal', 0),
+
+(29, 'Brasília', 1),
+(29, 'Rio de Janeiro', 0),
+(29, 'São Paulo', 0),
+(29, 'Buenos Aires', 0),
+
+(30, 'Pretoria', 0),
+(30, 'Cape Town', 0),
+(30, 'Johannesburg', 0),
+(30, 'Bloemfontein', 1),
+
+(31, 'New Delhi', 1),
+(31, 'Mumbai', 0),
+(31, 'Kolkata', 0),
+(31, 'Chennai', 0),
+
+(32, 'Moscow', 1),
+(32, 'Saint Petersburg', 0),
+(32, 'Novosibirsk', 0),
+(32, 'Kazan', 0),
+
+(33, 'Cairo', 1),
+(33, 'Alexandria', 0),
+(33, 'Luxor', 0),
+(33, 'Giza', 0),
+
+(34, 'Mexico City', 1),
+(34, 'Guadalajara', 0),
+(34, 'Monterrey', 0),
+(34, 'Cancún', 0),
+
+(35, 'Buenos Aires', 1),
+(35, 'Santiago', 0),
+(35, 'Montevideo', 0),
+(35, 'Lima', 0);
