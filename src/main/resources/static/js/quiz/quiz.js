@@ -6,7 +6,6 @@ let userChoices = {};
 let correctAnswers = {};
 let score = 0;
 
-//Get Question for chosen test
 async function getQuestions(quizId)
 {
     const url = `api/quiz/questions/${quizId}`;
@@ -20,7 +19,6 @@ async function getQuestions(quizId)
 
 }
 
-//Get Correct Answers for chosen test
 async function getAnswers(quizId) {
     const url = `api/quiz/answers/${quizId}`;
     try {
@@ -41,7 +39,6 @@ async function getAnswers(quizId) {
     }
 }
 
-//Retrieves the Thymeleaf fragment to display
 async function displayQuestion(quizId, currentQuestion, parent)
 {
     const url = `/quiz/setup/${quizId}?currentQuestion=${currentQuestion}`;
@@ -56,26 +53,22 @@ async function displayQuestion(quizId, currentQuestion, parent)
     })
 }
 
-//Used to CHOOSE and STORE answer choices.
 function answerSelect(event)
 {
     const rightButton = document.getElementById("right-button")
     const leftButton = document.getElementById("left-button")
     const answerButtons = document.querySelector("#question-answers")
     const answerButtonsChildren = answerButtons.querySelectorAll("button")
-
     const currentAnswerButton = event.currentTarget
     const choice = event.target.innerText
+    const previousChoice = answerButtons.querySelector(".btn-primary")
 
     userChoices[questionCount] = choice;
 
-    //Checks If question was already answered
-    const previousChoice = answerButtons.querySelector(".btn-primary")
     previousChoice == null ? null : (previousChoice.classList.remove("btn-primary"), previousChoice.classList.add("btn-outline-primary"))
     currentAnswerButton.classList.add("btn-primary")
     currentAnswerButton.classList.remove("btn-outline-primary")
 
-    //Activates/Deactivate Question Navigation Buttons
     if(questionCount >= 1)
     {
         rightButton.disabled = false
@@ -87,7 +80,6 @@ function answerSelect(event)
     }
 }
 
-//Used to navigate between questions
 async function questionNavigation(event)
 {
     const choice = event.target.innerText
@@ -97,13 +89,11 @@ async function questionNavigation(event)
     const buttonNavParent = document.getElementById("buttons")
     let leftButton = document.getElementById("left-button")
 
-    //NEXT
     if(choice == ">")
     {
         questionCount++
         rightButton.disabled = true
 
-        //ADDS PREV BUTTON IF DOESN'T EXIST
         if(leftButton == null)
         {
             leftButton = document.createElement("button")
@@ -115,7 +105,6 @@ async function questionNavigation(event)
             buttonNavParent.append(rightButton)
         }
 
-        //CHECK IF AT END
         if(questionCount == globalTotalQuestions)
         {
             rightButton.innerText = "Submit";
@@ -123,18 +112,16 @@ async function questionNavigation(event)
             rightButton.addEventListener("click", submitQuiz)
         }
     }
-    //BACK
+
     if(choice == "<")
     {
         questionCount--
 
-        //CHECK IF AT BEGINNING
         if(questionCount == 1)
         {
             leftButton.remove()
         }
 
-        //Revert SUBMIT back to ">"
         if(rightButton.innerText == "Submit")
         {
             rightButton.innerText = ">";
@@ -143,14 +130,11 @@ async function questionNavigation(event)
         }
 
     }
-    //Updates Counter && gets next set of questions to display
     counter.innerHTML = `${questionCount} / ${globalTotalQuestions}`
     await displayQuestion(globalId, questionCount, parent)
-    //checks for questions already answered
     userAnswerSelected()
 }
 
-//When quiz is submitted
 async function submitQuiz()
 {
     const answersContainer = document.getElementById("question-answers");
@@ -161,13 +145,11 @@ async function submitQuiz()
     const leftButton = document.getElementById("left-button");
     const rightButton = document.getElementById("right-button");
 
-    //Removes elements not use at end quiz screen
     leftButton.remove();
     answersContainer.remove();
     questionCounter.remove();
     questionTitle.innerText = "Final Score"
 
-    //Calculates Score
     await getAnswers(globalId);
     for(key in userChoices)
      {
@@ -176,18 +158,13 @@ async function submitQuiz()
             score++;
         }
      }
-
-    //Display Score
     rightButton.innerText = "Home"
     questionBox.innerText = `${score} / ${globalTotalQuestions}`
-
-    //Redirect User
     rightButton.addEventListener("click", () => {
         window.location.href = '/'
     })
 }
 
-//Used to reselect PREVIOUSLY SELECTED answers
 function userAnswerSelected()
 {
     const questionParent = document.getElementById("question-answers")
@@ -219,7 +196,6 @@ document.addEventListener("DOMContentLoaded", () => {
         const questionsArray = await getQuestions(id)
         const currentQuestion = questionsArray[0].questionNumber
         const totalQuestions = questionsArray.length
-
         globalId = id
         globalTotalQuestions = totalQuestions
         globalQuestionsArray = questionsArray
@@ -229,8 +205,6 @@ document.addEventListener("DOMContentLoaded", () => {
         const parentContainer = document.getElementById("container")
         const buttonContainer = document.getElementById("buttons")
 
-
-        //Counter
         const questionTitle = document.createElement("div")
         const questionCounter = document.createElement("div")
         questionCounter.classList.add("question-counter")
@@ -238,13 +212,10 @@ document.addEventListener("DOMContentLoaded", () => {
         questionTitle.textContent = "Question :"
         questionCounter.textContent = `${questionCount} / ${totalQuestions}`
 
-
-        //Container
         const questionContainer = document.createElement("div")
         questionContainer.classList.add("question-container")
         displayQuestion(id, currentQuestion, questionContainer)
 
-        //Right Navigation Buttons >
         const rightButton = document.createElement("button")
         rightButton.classList.add("btn", "btn-primary")
         rightButton.id = "right-button"
@@ -254,7 +225,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
         rightButton.addEventListener("click", questionNavigation)
 
-        //Appends
         buttonContainer.append(rightButton)
 
         parentContainer.append(questionTitle)
