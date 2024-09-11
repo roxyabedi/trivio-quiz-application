@@ -24,7 +24,7 @@ public class EditController
         var quizzes = quizDao.getAllQuizzes();
         Quiz quiz = new Quiz();
 
-        model.addAttribute("title", "Trivio Home");
+        model.addAttribute("title", "Quizzes");
         model.addAttribute("quizzes", quizzes);
         model.addAttribute("quiz", quiz);
 

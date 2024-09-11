@@ -66,6 +66,4 @@ public class QuizController {
 
         return "/fragments/quiz-question";
     }
-
-
 }

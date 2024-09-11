@@ -16,7 +16,6 @@ async function getQuestions(quizId)
     } catch (error) {
         return 0;
     }
-
 }
 
 async function getAnswers(quizId) {
