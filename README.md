@@ -3,6 +3,8 @@
 **Description:** 
 Trivio Quiz Application is a fun and interactive platform for creating, customizing, and taking quizzes with ease.
 
+<img width="1132" height="709" alt="quiz_home" src="https://github.com/user-attachments/assets/8a583b4c-c764-4e2b-9145-b97d1c77cd94" />
+
 ---
 
 ## Table of Contents
